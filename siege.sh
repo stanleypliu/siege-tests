@@ -2,7 +2,7 @@
 # Bash script to run Siege for API load testing with a simple UI
 
 # Check whether Siege is installed
-if ! [ command -v siege ] &> /dev/null
+if ! command -v siege &> /dev/null
 then 
   echo "You don't have Siege installed or else it isn't in your PATH. Please make sure to fix this before running again."
   exit 1
@@ -84,3 +84,5 @@ echo 'Running tests...'
 eval "siege $log_location --concurrent=$concurrency --verbose --content-type='application/json' '$endpoint $verb $body'"
 
 echo 'Test done!'
+
+exit 0
