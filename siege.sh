@@ -131,11 +131,26 @@ file_read_mode() {
   #   echo -n "Please enter an integer value greater than 0:"
   #   read concurrency
   # done
+
+  echo -e 'Set internet mode on? The URLs in your file will be hit randomly instead of sequentially'
+
+  select choice in "Y" "N"; do
+    case $choice in
+        Y ) 
+          internet_mode="-i" 
+          break;;
+        N )
+          internet_mode=""
+          break;;
+        *) 
+          echo "Select either 1 or 2 to proceed";;
+    esac
+done
   
   # Run the Siege program
   echo 'Running tests...'
 
-  eval "siege -f $file_location $enable_logging --concurrent=$concurrency --verbose --content-type='application/json'"
+  eval "siege -f $file_location $internet_mode $enable_logging --concurrent=$concurrency --verbose --content-type='application/json'"
 }
 
 # There's two options to choose from - you can either provide a single endpoint or a file of endpoints to read from:
