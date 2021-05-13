@@ -145,12 +145,32 @@ file_read_mode() {
         *) 
           echo "Select either 1 or 2 to proceed";;
     esac
-done
+  done
+
+  echo -e 'Set delay?'
+  read delay_amount
+
+  if [ $delay_amount == "" ] ;
+  then
+    delay=""
+  else 
+    delay="--delay=$delay_amount"
+  fi
+
+  echo -e 'Set reps?'
+  read reps_amount
+
+  if [ $reps_amount == "" ] ;
+  then
+    reps=""
+  else 
+    reps="--reps=$reps_amount"
+  fi
   
   # Run the Siege program
   echo 'Running tests...'
 
-  eval "siege -f $file_location $internet_mode $enable_logging --concurrent=$concurrency --verbose --content-type='application/json'"
+  eval "siege -f $file_location $reps $delay $internet_mode $enable_logging --concurrent=$concurrency --verbose --content-type='application/json'"
 }
 
 # There's two options to choose from - you can either provide a single endpoint or a file of endpoints to read from:
